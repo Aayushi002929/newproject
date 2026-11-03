@@ -34,3 +34,8 @@ Vercel → static app hosting
 ```
 
 AWS S3 backup remains a future research extension; this no-cost setup does not create a second backup.
+
+## Minor project report format
+
+The report guide maps CloudKeep to the six-chapter structure of the supplied sample: front matter, introduction, theory, analysis/design, implementation, results/discussion, conclusion/future scope, code appendix, and bibliography. Use your institution's own certificate and formatting requirements. See docs/minor-project-report-guide.md.
+

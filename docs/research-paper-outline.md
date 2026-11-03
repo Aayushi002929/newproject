@@ -1,3 +1,5 @@
+> The supplied PDF is a six-chapter minor-project report format. For that exact structure, use [minor-project-report-guide.md](minor-project-report-guide.md). This separate outline is for a research-paper version.
+
 # Research paper framework
 
 ## Suggested title
@@ -42,5 +44,6 @@ Use your institution's required style (IEEE/APA/ACM) consistently. Cite Supabase
 - State what the prototype does not implement.
 - Use only consented, anonymized study data.
 - Check your university's formatting and originality rules. This outline is a starting framework, not a completed study or a claim of guaranteed uniqueness.
+
 
 
