@@ -8,6 +8,7 @@ CloudKeep is a private file organizer built with React, Supabase Auth/Storage, a
 - Private object storage: each user's files are stored under their auth user ID.
 - Upload, list, download, delete, search, favorite, and one-hour signed share links.
 - Optional password-protected uploads: files are encrypted in the browser with AES-GCM before upload and require the chosen password to decrypt after download.
+- Trash with restore: deleted files remain in Trash for 30 days, then are permanently removed the next time CloudKeep syncs after expiry.
 - Responsive Vite/React UI deployed as a static Vercel site.
 
 ## Set up the free cloud backend
@@ -27,6 +28,16 @@ The `.env.example` is for local development. Copy it to `.env` and add the same 
 Files are in a private bucket. **Share** creates a signed URL that expires after one hour. Anyone who receives that URL can access the file until expiry, so share it carefully. Never commit `.env` values or a Supabase secret/service-role key. Supabase Free is suitable for a student prototype, not a durability guarantee; export important files separately and review current quotas.
 
 For optional file-password protection, select the files to upload and enable **Password protect these files** in the upload dialog. The browser derives an AES-256-GCM key from the password using PBKDF2-SHA-256 and a random salt; only the encrypted file and non-secret decryption parameters are uploaded. CloudKeep does not store or reset this file password. If it is lost, the encrypted content cannot be recovered. Signed-link sharing is disabled for protected files in the app. Passwords apply to all files in one selected upload batch; upload separately to use different passwords.
+
+Trash uses Supabase Storage object moves and requires an update policy. If you already ran the earlier storage SQL, run only this added policy in Supabase SQL Editor:
+
+```sql
+drop policy if exists "Users update own files" on storage.objects;
+create policy "Users update own files" on storage.objects
+for update to authenticated
+using (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select auth.uid()::text))
+with check (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select auth.uid()::text));
+```
 
 ## Architecture
 

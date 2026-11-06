@@ -9,3 +9,9 @@ with check (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select
 create policy "Users delete own files" on storage.objects
 for delete to authenticated
 using (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select auth.uid()::text));
+
+drop policy if exists "Users update own files" on storage.objects;
+create policy "Users update own files" on storage.objects
+for update to authenticated
+using (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select auth.uid()::text))
+with check (bucket_id = 'user-files' and (storage.foldername(name))[1] = (select auth.uid()::text));
